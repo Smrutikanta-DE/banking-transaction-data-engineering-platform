@@ -107,9 +107,9 @@ Explore the detailed project documentation:
 
 The project implementation is available in the `notebooks/` directory:
 
-1. [Bronze Ingestion](notebooks/01_bronze_ingestion)
-2. [Silver Transformation](notebooks/02_silver_transformation)
-3. [Gold Layer](notebooks/03_gold_layer)
+1. [Bronze Ingestion](notebooks/01_bronze_ingestion.ipynb)
+2. [Silver Transformation](notebooks/02_silver_transformation.ipynb)
+3. [Gold Layer](notebooks/03_gold_layer.ipynb)
 
 ## Project Repository Structure
 
