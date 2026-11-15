@@ -140,3 +140,17 @@ banking-transaction-data-engineering-platform/
 └── README.md
 ```
 
+## Project Results
+
+- Processed 30 banking transactions across mobile banking, ATM and branch channels.
+- Processed a total transaction value of ₹14,784.91.
+- Achieved a successful transaction rate of 76.67%.
+- Generated 7 Gold-layer analytical datasets.
+- Built an interactive Power BI dashboard with 3 report pages.
+- Implemented data validation and quarantine handling for invalid records.
+
+## Author
+
+**Data Engineering Project**
+
+GitHub: [Banking Transaction Data Engineering Platform](https://github.com/Smrutikanta-DE/banking-transaction-data-engineering-platform)
