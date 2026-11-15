@@ -41,7 +41,7 @@ Provides a detailed analytical view of transaction patterns:
 - Transaction count by banking source and status
 - Daily transaction value trend
 
-![Transaction Analysis](transaction_analysis.png)
+![Transaction Analysis](Transaction_analysis.png)
 
 ## Data Sources
 
