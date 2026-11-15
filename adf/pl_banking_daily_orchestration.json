@@ -1,0 +1,300 @@
+{
+    "name": "pl_banking_daily_orchestration",
+    "properties": {
+        "activities": [
+            {
+                "name": "Set _Pipeline_Started",
+                "type": "SetVariable",
+                "dependsOn": [],
+                "policy": {
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "variableName": "v_pipeline_status",
+                    "value": "STARTED"
+                }
+            },
+            {
+                "name": "Bronze_Ingestion_Placeholder",
+                "type": "Wait",
+                "dependsOn": [
+                    {
+                        "activity": "Set_Processing_Date",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "userProperties": [],
+                "typeProperties": {
+                    "waitTimeInSeconds": 1
+                }
+            },
+            {
+                "name": "Silver_Transformation_Placeholder",
+                "type": "Wait",
+                "dependsOn": [
+                    {
+                        "activity": "Bronze_Ingestion_Placeholder",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "userProperties": [],
+                "typeProperties": {
+                    "waitTimeInSeconds": 1
+                }
+            },
+            {
+                "name": "Quarantine_Processing_Placeholder",
+                "type": "Wait",
+                "dependsOn": [
+                    {
+                        "activity": "Silver_Transformation_Placeholder",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "userProperties": [],
+                "typeProperties": {
+                    "waitTimeInSeconds": 1
+                }
+            },
+            {
+                "name": "Gold_Aggregation_Placeholder",
+                "type": "Wait",
+                "dependsOn": [
+                    {
+                        "activity": "Quarantine_Processing_Placeholder",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "userProperties": [],
+                "typeProperties": {
+                    "waitTimeInSeconds": 1
+                }
+            },
+            {
+                "name": "Set_Pipeline_Completed",
+                "type": "SetVariable",
+                "dependsOn": [
+                    {
+                        "activity": "Gold_Aggregation_Placeholder",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "variableName": "v_pipeline_status",
+                    "value": "COMPLETED"
+                }
+            },
+            {
+                "name": "Set_Bronze_Failed",
+                "type": "SetVariable",
+                "dependsOn": [
+                    {
+                        "activity": "Bronze_Ingestion_Placeholder",
+                        "dependencyConditions": [
+                            "Failed"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "variableName": "v_pipeline_status",
+                    "value": "FAILED"
+                }
+            },
+            {
+                "name": "Fail_Bronze_Pipeline",
+                "type": "Fail",
+                "dependsOn": [
+                    {
+                        "activity": "Set_Bronze_Failed",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "userProperties": [],
+                "typeProperties": {
+                    "message": "BRONZE_INGESTION_FAILED",
+                    "errorCode": "Bronze ingestion failed. Daily banking pipeline stopped."
+                }
+            },
+            {
+                "name": "Set_Silver_Failed",
+                "type": "SetVariable",
+                "dependsOn": [
+                    {
+                        "activity": "Silver_Transformation_Placeholder",
+                        "dependencyConditions": [
+                            "Failed"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "variableName": "v_pipeline_status",
+                    "value": "FAILED"
+                }
+            },
+            {
+                "name": "Fail_Silver_Pipeline",
+                "type": "Fail",
+                "dependsOn": [
+                    {
+                        "activity": "Set_Silver_Failed",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "userProperties": [],
+                "typeProperties": {
+                    "message": "SILVER_TRANSFORMATION_FAILED",
+                    "errorCode": "Silver transformation failed. Daily banking pipeline stopped."
+                }
+            },
+            {
+                "name": "Set_Quarantine_Failed",
+                "type": "SetVariable",
+                "dependsOn": [
+                    {
+                        "activity": "Quarantine_Processing_Placeholder",
+                        "dependencyConditions": [
+                            "Failed"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "variableName": "v_pipeline_status",
+                    "value": "FAILED"
+                }
+            },
+            {
+                "name": "Fail_Quarantine_Pipeline",
+                "type": "Fail",
+                "dependsOn": [
+                    {
+                        "activity": "Set_Quarantine_Failed",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "userProperties": [],
+                "typeProperties": {
+                    "message": "QUARANTINE_PROCESSING_FAILED",
+                    "errorCode": "Quarantine processing failed. Daily banking pipeline stopped."
+                }
+            },
+            {
+                "name": "Set_Gold_Failed",
+                "type": "SetVariable",
+                "dependsOn": [
+                    {
+                        "activity": "Gold_Aggregation_Placeholder",
+                        "dependencyConditions": [
+                            "Failed"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "variableName": "v_pipeline_status",
+                    "value": "FAILED"
+                }
+            },
+            {
+                "name": "Fail_Gold_Pipeline",
+                "type": "Fail",
+                "dependsOn": [
+                    {
+                        "activity": "Set_Gold_Failed",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "userProperties": [],
+                "typeProperties": {
+                    "message": "GOLD_AGGREGATION_FAILED",
+                    "errorCode": "Gold aggregation failed. Daily banking pipeline stopped."
+                }
+            },
+            {
+                "name": "Set_Processing_Date",
+                "type": "SetVariable",
+                "dependsOn": [
+                    {
+                        "activity": "Set _Pipeline_Started",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "variableName": "v_processing_date",
+                    "value": {
+                        "value": "@pipeline().parameters.p_processing_date",
+                        "type": "Expression"
+                    }
+                }
+            }
+        ],
+        "parameters": {
+            "p_processing_date": {
+                "type": "string",
+                "defaultValue": "2026-10-20"
+            }
+        },
+        "variables": {
+            "v_pipeline_status": {
+                "type": "String",
+                "defaultValue": "STARTED"
+            },
+            "v_processing_date": {
+                "type": "String"
+            }
+        },
+        "annotations": [],
+        "lastPublishTime": "2026-11-13T05:44:53Z"
+    },
+    "type": "Microsoft.DataFactory/factories/pipelines"
+}
