@@ -1,1 +1,0 @@
-# banking-transaction-data-engineering-platform
