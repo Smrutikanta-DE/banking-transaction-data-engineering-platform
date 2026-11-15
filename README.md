@@ -90,3 +90,53 @@ The current ADF implementation uses placeholder Wait activities. Actual executio
 ## Author
 
 Data Engineering Project | Banking Transaction Analytics
+
+
+## Project Documentation
+
+Explore the detailed project documentation:
+
+| Document | Description |
+|---|---|
+| [Architecture Diagram](docs/architecture.md) | End-to-end project architecture |
+| [Data Dictionary](docs/data_dictionary.md) | Bronze, Silver and Gold datasets |
+| [Power BI Dashboard](powerbi/README.md) | Dashboard pages, screenshots and insights |
+| [ADF Pipeline](adf/README.md) | Azure Data Factory orchestration design |
+
+## Databricks Notebooks
+
+The project implementation is available in the `notebooks/` directory:
+
+1. [Bronze Ingestion](notebooks/01_bronze_ingestion)
+2. [Silver Transformation](notebooks/02_silver_transformation)
+3. [Gold Layer](notebooks/03_gold_layer)
+
+## Project Repository Structure
+
+```text
+banking-transaction-data-engineering-platform/
+│
+├── notebooks/
+│   ├── 01_bronze_ingestion
+│   ├── 02_silver_transformation
+│   └── 03_gold_layer
+│
+├── adf/
+│   ├── pl_banking_daily_orchestration.json
+│   └── README.md
+│
+├── powerbi/
+│   ├── README.md
+│   ├── banking_overview.png
+│   ├── customer_account_analysis.png
+│   └── Transaction_analysis.png
+│
+├── docs/
+│   ├── architecture.md
+│   └── data_dictionary.md
+│
+├── sample_data/
+├── .gitignore
+└── README.md
+```
+
